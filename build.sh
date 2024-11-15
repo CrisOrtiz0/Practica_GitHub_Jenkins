@@ -1,17 +1,21 @@
 #!/bin/bash
+W3CSS_URL="https://www.w3schools.com/w3css/4/w3.css"
+CSS_DIR="css"
+W3CSS_FILE="$CSS_DIR/w3.css"
 
-# Verificar si w3.css ya existe
-if [ ! -f w3.css ]; then
+mkdir -p $CSS_DIR
+
+if [ ! -f "$W3CSS_FILE" ]; then
     echo "Descargando w3.css..."
-    wget https://www.w3schools.com/w3css/4/w3.css -O w3.css || { echo "Error al descargar w3.css"; exit 1; }
+
+    curl -o "$W3CSS_FILE" "$W3CSS_URL"
+
+    if [ $? -ne 0 ]; then
+        echo "Error: No se pudo descargar w3.css"
+        exit 1
+    fi
 else
-    echo "w3.css ya está descargado."
+    echo "w3.css ya está descargado"
 fi
 
-# Crear carpeta de salida
-mkdir -p dist
-
-# Copiar archivos HTML a la carpeta de salida
-cp *.html dist/
-cp w3.css dist/
-echo "Sitio web construido en la carpeta 'dist'."
+mkdir -p ../dist
